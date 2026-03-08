@@ -2,128 +2,55 @@
 
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { usePathname, useRouter } from "next/navigation"
 
 export default function Navbar() {
 
-const pathname = usePathname()
-const router = useRouter()
+const [user,setUser]=useState<any>(null)
 
-const [open, setOpen] = useState(false)
-const [user, setUser] = useState<any>(null)
+useEffect(()=>{
+const storedUser=localStorage.getItem("user")
+if(storedUser) setUser(JSON.parse(storedUser))
+},[])
 
-useEffect(() => {
-const storedUser = localStorage.getItem("user")
-if (storedUser) setUser(JSON.parse(storedUser))
-}, [pathname])
+return(
 
-const logout = () => {
-localStorage.removeItem("user")
-setUser(null)
-router.push("/")
-}
+<header className="w-full bg-white shadow-sm sticky top-0 z-50">
 
-const navItem = (path: string) =>
-`px-4 py-2 rounded-md transition ${
-      pathname === path
-        ? "bg-white text-blue-700"
-        : "text-white hover:bg-white/20"
-    }`
+<div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
 
-return ( <header className="w-full bg-gradient-to-r from-blue-700 to-orange-500 text-white px-6 py-4">
+<Link href="/" className="text-xl font-bold text-blue-600">
+RoomKhidki
+</Link>
 
-      
-  <div className="max-w-7xl mx-auto flex justify-between items-center">
+<nav className="flex gap-6 items-center">
 
-    {/* Logo */}
-    <Link href="/" className="text-xl font-bold">
-      Room<span className="text-orange-300">Khidki</span>
-    </Link>
+<Link href="/find-rooms" className="text-gray-700 hover:text-blue-600">
+Rooms
+</Link>
 
-    {/* Mobile Menu Button */}
-    <button
-      className="md:hidden text-2xl"
-      onClick={() => setOpen(!open)}
-    >
-      ☰
-    </button>
+<Link href="/find-roommate" className="text-gray-700 hover:text-blue-600">
+Roommates
+</Link>
 
-    {/* Desktop Menu */}
-    <div className="hidden md:flex gap-4 items-center">
+<Link href="/saved" className="text-gray-700 hover:text-blue-600">
+❤️ Saved
+</Link>
 
-      <Link href="/" className={navItem("/")}>Home</Link>
+{user && (
 
-      <Link href="/find-rooms" className={navItem("/find-rooms")}>
-        Find Rooms
-      </Link>
+<Link href="/dashboard" className="text-gray-700 hover:text-blue-600">
+Dashboard
+</Link>
+)}
 
-      <Link href="/find-roommate" className={navItem("/find-roommate")}>
-        Find Roommate
-      </Link>
+<div className="w-9 h-9 rounded-full bg-gray-300"></div>
 
-      <Link href="/list-property" className={navItem("/list-property")}>
-        List Property
-      </Link>
+</nav>
 
-      {user ? (
-        <button
-          onClick={logout}
-          className="border px-4 py-2 rounded-md hover:bg-white hover:text-blue-700"
-        >
-          Logout
-        </button>
-      ) : (
-        <Link
-          href="/login"
-          className="border px-4 py-2 rounded-md hover:bg-white hover:text-blue-700"
-        >
-          Login
-        </Link>
-      )}
-
-    </div>
-
-  </div>
-
-  {/* Mobile Menu */}
-  {open && (
-    <div className="flex flex-col mt-4 gap-3 md:hidden">
-
-      <Link href="/" className={navItem("/")}>Home</Link>
-
-      <Link href="/find-rooms" className={navItem("/find-rooms")}>
-        Find Rooms
-      </Link>
-
-      <Link href="/find-roommate" className={navItem("/find-roommate")}>
-        Find Roommate
-      </Link>
-
-      <Link href="/list-property" className={navItem("/list-property")}>
-        List Property
-      </Link>
-
-      {user ? (
-        <button
-          onClick={logout}
-          className="border px-4 py-2 rounded-md"
-        >
-          Logout
-        </button>
-      ) : (
-        <Link
-          href="/login"
-          className="border px-4 py-2 rounded-md"
-        >
-          Login
-        </Link>
-      )}
-
-    </div>
-  )}
+</div>
 
 </header>
-      
 
 )
+
 }
