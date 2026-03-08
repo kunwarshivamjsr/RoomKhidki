@@ -1,197 +1,105 @@
 "use client"
 
+import Link from "next/link"
 import { useState, useEffect } from "react"
-import { useSearchParams } from "next/navigation"
-import RoomCard from "../../components/RoomCard"
+import { useTheme } from "next-themes"
 
-type Room = {
-id: number
-title: string
-city: string
-price: number
-rating: number
-image: string
-}
+export default function Navbar() {
 
-export default function FindRoomsContent() {
+const [user, setUser] = useState<any>(null)
+const [mounted, setMounted] = useState(false)
+const [open, setOpen] = useState(false)
 
-const searchParams = useSearchParams()
-
-const roomsData: Room[] = [
-{
-id: 1,
-title: "Modern Studio Room",
-city: "Delhi",
-price: 8000,
-rating: 4.5,
-image: "/building.jpg"
-},
-{
-id: 2,
-title: "Shared Apartment",
-city: "Bangalore",
-price: 6000,
-rating: 4.2,
-image: "/building.jpg"
-},
-{
-id: 3,
-title: "Luxury PG Room",
-city: "Mumbai",
-price: 12000,
-rating: 4.8,
-image: "/building.jpg"
-}
-]
-
-const [cityInput, setCityInput] = useState("")
-const [budgetInput, setBudgetInput] = useState("")
-const [city, setCity] = useState("")
-const [budget, setBudget] = useState("")
+const { theme, setTheme } = useTheme()
 
 useEffect(() => {
+const storedUser = localStorage.getItem("user")
+if (storedUser) setUser(JSON.parse(storedUser))
+setMounted(true)
+}, [])
 
- 
-const cityParam = searchParams.get("city")
-const budgetParam = searchParams.get("budget")
-
-if (cityParam) {
-  setCity(cityParam)
-  setCityInput(cityParam)
+const logout = () => {
+localStorage.removeItem("user")
+window.location.href = "/login"
 }
 
-if (budgetParam) {
-  setBudget(budgetParam)
-  setBudgetInput(budgetParam)
-}
- 
-
-}, [searchParams])
-
-const handleSearch = () => {
-setCity(cityInput)
-setBudget(budgetInput)
-}
-
-const handleReset = () => {
-setCity("")
-setBudget("")
-setCityInput("")
-setBudgetInput("")
-}
-
-const filteredRooms = roomsData.filter((room) => {
-
- 
-const cityMatch =
-  city === "" ||
-  room.city.toLowerCase().includes(city.toLowerCase())
-
-const budgetMatch =
-  budget === "" ||
-  room.price <= Number(budget)
-
-return cityMatch && budgetMatch
- 
-
-})
+if (!mounted) return null
 
 return (
 
  
-<div className="w-full min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+<header className="w-full bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-50 transition-colors">
 
-  <div className="max-w-7xl mx-auto px-6 py-12">
+  <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
 
-    <h2 className="text-3xl font-semibold text-center mb-8 text-gray-800 dark:text-white">
-      Available Rooms 🏠
-    </h2>
+    <Link href="/" className="text-xl font-bold text-blue-600">
+      RoomKhidki
+    </Link>
 
+    <nav className="flex gap-6 items-center relative">
 
-    {/* SEARCH FILTERS */}
+      {user && (
+        <Link href="/dashboard" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
+          Dashboard
+        </Link>
+      )}
 
-    <div className="bg-white dark:bg-gray-800
-                    p-6 rounded-xl shadow-md mb-10
-                    grid gap-4 md:grid-cols-4 transition-colors">
+      <Link href="/find-rooms" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
+        Find Rooms
+      </Link>
 
-      {/* CITY INPUT */}
-
-      <input
-        type="text"
-        placeholder="Search by city..."
-        value={cityInput}
-        onChange={(e) => setCityInput(e.target.value)}
-        className="border border-gray-300 dark:border-gray-600
-                   p-3 rounded-lg outline-none
-                   bg-white dark:bg-gray-900
-                   text-gray-800 dark:text-white
-                   placeholder-gray-400 dark:placeholder-gray-500
-                   focus:ring-2 focus:ring-blue-500"
-      />
-
-
-      {/* BUDGET INPUT */}
-
-      <input
-        type="number"
-        placeholder="Max Budget"
-        value={budgetInput}
-        onChange={(e) => setBudgetInput(e.target.value)}
-        className="border border-gray-300 dark:border-gray-600
-                   p-3 rounded-lg outline-none
-                   bg-white dark:bg-gray-900
-                   text-gray-800 dark:text-white
-                   placeholder-gray-400 dark:placeholder-gray-500
-                   focus:ring-2 focus:ring-blue-500"
-      />
-
-
-      {/* SEARCH BUTTON */}
+      <Link href="/find-roommate" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
+        Find Roommate
+      </Link>
 
       <button
-        onClick={handleSearch}
-        className="bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
+        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        className="border px-3 py-1 rounded-lg text-sm dark:text-white"
       >
-        Search
+        {theme === "dark" ? "☀" : "🌙"}
       </button>
 
+      <div className="relative">
 
-      {/* RESET BUTTON */}
+        <div
+          onClick={() => setOpen(!open)}
+          className="w-9 h-9 rounded-full bg-gray-300 dark:bg-gray-700 cursor-pointer"
+        />
 
-      <button
-        onClick={handleReset}
-        className="bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
-      >
-        Reset
-      </button>
+        {open && (
+          <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-lg py-2">
 
-    </div>
+            <Link
+              href="/dashboard"
+              className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white"
+            >
+              Profile
+            </Link>
 
+            <Link
+              href="/saved"
+              className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white"
+            >
+              Saved
+            </Link>
 
+            <button
+              onClick={logout}
+              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white"
+            >
+              Logout
+            </button>
 
-    {/* ROOMS GRID */}
-
-    {filteredRooms.length === 0 ? (
-
-      <p className="text-center text-gray-500 dark:text-gray-400">
-        No rooms available.
-      </p>
-
-    ) : (
-
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-
-        {filteredRooms.map((room) => (
-          <RoomCard key={room.id} room={room} />
-        ))}
+          </div>
+        )}
 
       </div>
 
-    )}
+    </nav>
 
   </div>
 
-</div>
+</header>
  
 
 )
