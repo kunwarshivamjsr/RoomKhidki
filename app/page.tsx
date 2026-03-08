@@ -4,227 +4,234 @@ import Link from "next/link"
 
 export default function Home() {
 
-return (
+  return (
 
-<div className="bg-gray-50">
+    <div className="bg-gray-50">
 
-{/* HERO SECTION */}
+      {/* HERO SECTION */}
 
-<section className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
+      <section className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
 
-<div>
+        <div>
 
-<h1 className="text-5xl font-bold text-gray-800 mb-4">
-Find Your Perfect Room
-</h1>
+          <h1 className="text-5xl font-bold text-gray-800 mb-4">
+            Find Your Perfect Room
+          </h1>
 
-<p className="text-gray-600 text-lg mb-6">
-Discover verified rooms and trusted roommates across India.
-</p>
+          <p className="text-gray-600 text-lg mb-6">
+            Discover verified rooms and trusted roommates across India.
+          </p>
 
-{/* SEARCH BAR */}
+          {/* SEARCH BAR */}
 
-<div className="bg-white shadow-md rounded-xl p-4 flex flex-col md:flex-row gap-4">
+          <div className="bg-white shadow-md rounded-xl p-4 flex flex-col md:flex-row gap-4">
 
-<input
-type="text"
-placeholder="Search City"
-className="border p-3 rounded-lg flex-1"
-/>
+            <input
+              type="text"
+              placeholder="Search City"
+              className="border p-3 rounded-lg flex-1"
+            />
 
-<input
-type="number"
-placeholder="Max Budget"
-className="border p-3 rounded-lg flex-1"
-/>
+            <input
+              type="number"
+              placeholder="Max Budget"
+              className="border p-3 rounded-lg flex-1"
+            />
 
-<button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
-Search
-</button>
+            <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+              Search
+            </button>
 
-</div>
+          </div>
 
-<div className="mt-8 flex gap-4">
+          <div className="mt-8 flex gap-4">
 
-<Link
-href="/find-rooms"
-className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
->
-Browse Rooms
-</Link>
+            <Link
+              href="/find-rooms"
+              className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
+            >
+              Browse Rooms
+            </Link>
 
-<Link
-href="/find-roommate"
-className="border border-green-600 text-green-700 px-6 py-3 rounded-lg hover:bg-green-50"
->
-Find Roommate
-</Link>
+            <Link
+              href="/find-roommate"
+              className="border border-green-600 text-green-700 px-6 py-3 rounded-lg hover:bg-green-50"
+            >
+              Find Roommate
+            </Link>
 
-</div>
+          </div>
 
-</div>
+        </div>
 
-<div>
-<img
-src="/building.jpg"
-className="rounded-xl shadow-lg"
-/>
-</div>
+        <div>
+          <img
+            src="/building.jpg"
+            className="rounded-xl shadow-lg"
+          />
+        </div>
 
-</section>
+      </section>
 
-{/* TRENDING CITIES */}
+      {/* TRENDING CITIES */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
 
-<section className="py-16 bg-white">
+        <h2 className="text-3xl font-semibold mb-10 text-center">
+          Trending Cities
+        </h2>
 
-<div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 
-<h2 className="text-3xl font-semibold mb-10 text-center">
-Trending Cities
-</h2>
+          {[
+            { city: "Delhi", img: "/city1.jpg" },
+            { city: "Mumbai", img: "/city2.jpg" },
+            { city: "Bangalore", img: "/city3.jpg" },
+            { city: "Pune", img: "/city4.jpg" }
+          ].map((c) => (
 
-<div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div
+              key={c.city}
+              className="relative rounded-xl overflow-hidden shadow hover:scale-105 transition cursor-pointer">
 
-{["Delhi","Mumbai","Bangalore","Pune"].map(city => (
+              <img
+                src={c.img}
+                className="h-40 w-full object-cover"
+              />
 
-<div key={city}
-className="bg-gray-100 p-6 rounded-xl text-center hover:shadow-md cursor-pointer">
+              <div className="absolute bottom-3 left-3 text-white text-lg font-semibold">
+                {c.city}
+              </div>
 
-<h3 className="font-semibold text-lg">{city}</h3>
-<p className="text-sm text-gray-500">Explore rooms</p>
+            </div>
+          ))}
 
-</div>
+        </div>
 
-))}
+      </section>
 
-</div>
 
-</div>
+      {/* RECOMMENDED ROOMS */}
 
-</section>
+      <section className="py-16">
 
-{/* RECOMMENDED ROOMS */}
+        <div className="max-w-7xl mx-auto px-6">
 
-<section className="py-16">
+          <h2 className="text-3xl font-semibold mb-10 text-center">
+            Recommended Rooms
+          </h2>
 
-<div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-8">
 
-<h2 className="text-3xl font-semibold mb-10 text-center">
-Recommended Rooms
-</h2>
+            {[1, 2, 3].map(room => (
 
-<div className="grid md:grid-cols-3 gap-8">
+              <div key={room}
+                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
 
-{[1,2,3].map(room => (
+                <img
+                  src="/building.jpg"
+                  className="h-48 w-full object-cover"
+                />
 
-<div key={room}
-className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                <div className="p-4">
 
-<img
-src="/building.jpg"
-className="h-48 w-full object-cover"
-/>
+                  <h3 className="font-semibold text-lg">
+                    Modern Studio Room
+                  </h3>
 
-<div className="p-4">
+                  <p className="text-gray-500 text-sm">
+                    Delhi
+                  </p>
 
-<h3 className="font-semibold text-lg">
-Modern Studio Room
-</h3>
+                  <div className="flex justify-between mt-2">
 
-<p className="text-gray-500 text-sm">
-Delhi
-</p>
+                    <span className="text-blue-600 font-bold">
+                      ₹8000
+                    </span>
 
-<div className="flex justify-between mt-2">
+                    <span>⭐ 4.5</span>
 
-<span className="text-blue-600 font-bold">
-₹8000
-</span>
+                  </div>
 
-<span>⭐ 4.5</span>
+                </div>
 
-</div>
+              </div>
 
-</div>
+            ))}
 
-</div>
+          </div>
 
-))}
+        </div>
 
-</div>
+      </section>
 
-</div>
+      {/* FEATURES */}
 
-</section>
+      <section className="py-16 bg-gray-100">
 
-{/* FEATURES */}
+        <div className="max-w-7xl mx-auto px-6">
 
-<section className="py-16 bg-gray-100">
+          <h2 className="text-3xl font-semibold mb-10 text-center">
+            Why RoomKhidki
+          </h2>
 
-<div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-8">
 
-<h2 className="text-3xl font-semibold mb-10 text-center">
-Why RoomKhidki
-</h2>
+            <div className="bg-white p-6 rounded-xl shadow">
+              <h3 className="font-semibold text-lg mb-2">🏠 Verified Rooms</h3>
+              <p className="text-gray-500">Safe and trusted listings.</p>
+            </div>
 
-<div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow">
+              <h3 className="font-semibold text-lg mb-2">🤝 Trusted Roommates</h3>
+              <p className="text-gray-500">Find compatible roommates.</p>
+            </div>
 
-<div className="bg-white p-6 rounded-xl shadow">
-<h3 className="font-semibold text-lg mb-2">🏠 Verified Rooms</h3>
-<p className="text-gray-500">Safe and trusted listings.</p>
-</div>
+            <div className="bg-white p-6 rounded-xl shadow">
+              <h3 className="font-semibold text-lg mb-2">📍 Smart Search</h3>
+              <p className="text-gray-500">Search by city and budget.</p>
+            </div>
 
-<div className="bg-white p-6 rounded-xl shadow">
-<h3 className="font-semibold text-lg mb-2">🤝 Trusted Roommates</h3>
-<p className="text-gray-500">Find compatible roommates.</p>
-</div>
+          </div>
 
-<div className="bg-white p-6 rounded-xl shadow">
-<h3 className="font-semibold text-lg mb-2">📍 Smart Search</h3>
-<p className="text-gray-500">Search by city and budget.</p>
-</div>
+        </div>
 
-</div>
+      </section>
 
-</div>
+      {/* TESTIMONIALS */}
 
-</section>
+      <section className="py-16">
 
-{/* TESTIMONIALS */}
+        <div className="max-w-7xl mx-auto px-6">
 
-<section className="py-16">
+          <h2 className="text-3xl font-semibold mb-10 text-center">
+            What Users Say
+          </h2>
 
-<div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-8">
 
-<h2 className="text-3xl font-semibold mb-10 text-center">
-What Users Say
-</h2>
+            <div className="bg-white p-6 rounded-xl shadow">
+              <p>"Found a great PG in 2 days!"</p>
+              <h4 className="mt-4 font-semibold">Rahul</h4>
+            </div>
 
-<div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow">
+              <p>"Best place to find roommates."</p>
+              <h4 className="mt-4 font-semibold">Priya</h4>
+            </div>
 
-<div className="bg-white p-6 rounded-xl shadow">
-<p>"Found a great PG in 2 days!"</p>
-<h4 className="mt-4 font-semibold">Rahul</h4>
-</div>
+            <div className="bg-white p-6 rounded-xl shadow">
+              <p>"Super easy to search rooms."</p>
+              <h4 className="mt-4 font-semibold">Arjun</h4>
+            </div>
 
-<div className="bg-white p-6 rounded-xl shadow">
-<p>"Best place to find roommates."</p>
-<h4 className="mt-4 font-semibold">Priya</h4>
-</div>
+          </div>
 
-<div className="bg-white p-6 rounded-xl shadow">
-<p>"Super easy to search rooms."</p>
-<h4 className="mt-4 font-semibold">Arjun</h4>
-</div>
+        </div>
 
-</div>
+      </section>
 
-</div>
+    </div>
 
-</section>
-
-</div>
-
-)
+  )
 
 }
