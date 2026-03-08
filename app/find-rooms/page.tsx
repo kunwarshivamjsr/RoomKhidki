@@ -46,7 +46,6 @@ export default function FindRoomsPage() {
 
   const filteredRooms = roomsData.filter((room) => {
 
-
     const cityMatch = room.city
       .toLowerCase()
       .includes(city.toLowerCase())
@@ -56,50 +55,65 @@ export default function FindRoomsPage() {
 
     return cityMatch && budgetMatch
 
-
   })
 
-  return (<div className="max-w-7xl mx-auto px-6 py-12">
+  return (
 
+    <div className="max-w-7xl mx-auto px-6 py-12 min-h-screen transition-colors
+                    bg-gray-50 dark:bg-gray-900">
 
-    <h2 className="text-3xl font-semibold text-center mb-8">
-      Available Rooms 🏠
-    </h2>
+      <h2 className="text-3xl font-semibold text-center mb-8
+                     text-gray-800 dark:text-white">
+        Available Rooms 🏠
+      </h2>
 
-    {/* Search Filters */}
+      {/* Search Filters */}
 
-    <div className="bg-white p-6 rounded-xl shadow-md mb-10 grid gap-4 md:grid-cols-3">
+      <div className="bg-white dark:bg-gray-800
+                      p-6 rounded-xl shadow-md mb-10
+                      grid gap-4 md:grid-cols-3 transition-colors">
 
-      <input
-        type="text"
-        placeholder="Search by city..."
-        className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-      />
+        <input
+          type="text"
+          placeholder="Search by city..."
+          value={city}
+          onChange={(e)=>setCity(e.target.value)}
+          className="border border-gray-300 dark:border-gray-600
+                     p-3 rounded-lg outline-none
+                     bg-white dark:bg-gray-900
+                     text-gray-800 dark:text-white
+                     focus:ring-2 focus:ring-blue-500"
+        />
 
-      <input
-        type="number"
-        placeholder="Max Budget"
-        className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-      />
+        <input
+          type="number"
+          placeholder="Max Budget"
+          value={budget}
+          onChange={(e)=>setBudget(e.target.value)}
+          className="border border-gray-300 dark:border-gray-600
+                     p-3 rounded-lg outline-none
+                     bg-white dark:bg-gray-900
+                     text-gray-800 dark:text-white
+                     focus:ring-2 focus:ring-blue-500"
+        />
 
-      <button
-        className="bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        <button
+          onClick={()=>{
+            setCity("")
+            setBudget("")
+          }}
+          className="bg-blue-600 text-white rounded-lg
+                     hover:bg-blue-700 transition"
+        >
+          Reset
+        </button>
 
-      >
+      </div>
 
-        Reset
+      {/* Rooms Grid */}
 
-      </button>
-
-    </div>
-
-
-
-    {/* Rooms Grid */}
-
-    {
-      filteredRooms.length === 0 ? (
-        <p className="text-center text-gray-500">
+      {filteredRooms.length === 0 ? (
+        <p className="text-center text-gray-500 dark:text-gray-400">
           No rooms available.
         </p>
       ) : (
@@ -110,10 +124,10 @@ export default function FindRoomsPage() {
           ))}
 
         </div>
-      )
-    }
+      )}
 
-  </div >
+    </div>
 
   )
+
 }
