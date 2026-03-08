@@ -27,7 +27,6 @@ export default function Navbar() {
 
   return (
 
-
     <header className="w-full bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-50 transition-colors">
 
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
@@ -46,31 +45,15 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* CUSTOMER NAV */}
-          {user?.role === "customer" && (
-            <>
-              <Link href="/find-rooms" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
-                Find Rooms
-              </Link>
+          {/* Find Rooms */}
+          <Link href="/find-rooms" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
+            Find Rooms
+          </Link>
 
-              <Link href="/find-roommate" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
-                Find Roommate
-              </Link>
-            </>
-          )}
-
-          {/* OWNER NAV */}
-          {user?.role === "owner" && (
-            <>
-              <Link href="/my-rooms" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
-                View Your Rooms
-              </Link>
-
-              <Link href="/list-property" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
-                List New Room
-              </Link>
-            </>
-          )}
+          {/* Find Roommate */}
+          <Link href="/find-roommate" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
+            Find Roommate
+          </Link>
 
           {/* Dark Mode */}
           <button
@@ -88,6 +71,7 @@ export default function Navbar() {
               className="w-9 h-9 rounded-full bg-gray-300 dark:bg-gray-700 cursor-pointer"
             />
 
+            {/* Dropdown */}
             {open && (
               <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-lg py-2">
 
@@ -122,7 +106,6 @@ export default function Navbar() {
       </div>
 
     </header>
-
 
   )
 
