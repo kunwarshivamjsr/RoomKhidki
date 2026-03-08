@@ -1,109 +1,82 @@
-import Image from "next/image";
+"use client"
+
+import { useEffect, useState } from "react"
+import Link from "next/link"
 
 export default function Home() {
-  return (
-    <div className="bg-[#F4F3EF] text-[#2f3e34]">
 
-      {/* HERO SECTION */}
-      <section className="min-h-[85vh] grid md:grid-cols-2 items-center px-10 md:px-20 py-20">
-        
-        {/* LEFT TEXT */}
-        <div className="space-y-6">
-          <h1 className="text-5xl md:text-6xl font-semibold tracking-tight">
-            RoomKhidki
-          </h1>
+const [user, setUser] = useState<any>(null)
 
-          <p className="text-xl text-gray-600 max-w-lg">
-            Your Window to the Right Room & Roommate
-          </p>
+useEffect(() => {
+const storedUser = localStorage.getItem("user")
+if (storedUser) setUser(JSON.parse(storedUser))
+}, [])
 
-          <div className="flex gap-4 pt-4">
-            <button className="px-6 py-3 bg-green-800 text-white rounded-lg hover:bg-green-900 transition">
-              Find Rooms
-            </button>
+const quotes = [
+"Find comfort. Find community. Find your perfect space.",
+"Your next home is just a click away.",
+"Better rooms. Better roommates. Better living.",
+"Where the right room meets the right people."
+]
 
-            <button className="px-6 py-3 border border-green-800 text-green-800 rounded-lg hover:bg-green-800 hover:text-white transition">
-              List Property
-            </button>
-          </div>
-        </div>
+const randomQuote =
+quotes[Math.floor(Math.random() * quotes.length)]
 
-        {/* RIGHT IMAGE */}
-        <div className="flex justify-center">
-          <Image
-            src="/building.jpg"
-            alt="RoomKhidki Building"
-            width={500}
-            height={500}
-            className="rounded-xl shadow-xl"
-          />
-        </div>
-      </section>
+return ( <section className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
 
-      {/* HOW IT WORKS */}
-      <section className="py-20 px-10 md:px-20 bg-[#F4F3EF]">
+    
+  {/* LEFT CONTENT */}
+  <div>
 
-        <h2 className="text-4xl font-semibold text-center mb-16">
-          How RoomKhidki Works
-        </h2>
+    <h1 className="text-5xl font-bold text-gray-800 mb-4">
+      RoomKhidki
+    </h1>
 
-        <div className="grid md:grid-cols-4 gap-10 text-center">
+    {user && (
+      <p className="text-xl text-blue-600 mb-2">
+        Welcome back, <span className="font-semibold">{user.firstName}</span> 👋
+      </p>
+    )}
 
-          {/* STEP 1 */}
-          <div className="space-y-4">
-            <div className="w-16 h-16 bg-green-800 text-white flex items-center justify-center rounded-full text-2xl mx-auto">
-              📍
-            </div>
-            <h3 className="text-xl font-semibold">Select City</h3>
-            <p className="text-gray-600">
-              Choose city and set your budget
-            </p>
-          </div>
+    <p className="text-gray-600 mb-4 text-lg">
+      {randomQuote}
+    </p>
 
-          {/* STEP 2 */}
-          <div className="space-y-4">
-            <div className="w-16 h-16 bg-green-800 text-white flex items-center justify-center rounded-full text-2xl mx-auto">
-              🏠
-            </div>
-            <h3 className="text-xl font-semibold">Browse Rooms</h3>
-            <p className="text-gray-600">
-              View verified rooms and roommates
-            </p>
-          </div>
+    <p className="text-gray-500 mb-8">
+      Your Window to the Right Room & Roommate
+    </p>
 
-          {/* STEP 3 */}
-          <div className="space-y-4">
-            <div className="w-16 h-16 bg-green-800 text-white flex items-center justify-center rounded-full text-2xl mx-auto">
-              📊
-            </div>
-            <h3 className="text-xl font-semibold">Compare Prices</h3>
-            <p className="text-gray-600">
-              See market price insights
-            </p>
-          </div>
+    <div className="flex gap-4">
 
-          {/* STEP 4 */}
-          <div className="space-y-4">
-            <div className="w-16 h-16 bg-green-800 text-white flex items-center justify-center rounded-full text-2xl mx-auto">
-              💬
-            </div>
-            <h3 className="text-xl font-semibold">Connect Directly</h3>
-            <p className="text-gray-600">
-              Message landlords or roommates
-            </p>
-          </div>
+      <Link
+        href="/find-rooms"
+        className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
+      >
+        Find Rooms
+      </Link>
 
-        </div>
-
-        <p className="text-center text-gray-600 mt-16 max-w-3xl mx-auto">
-          Our streamlined process takes users from search to booking in minutes,
-          with complete transparency at every step. The platform handles
-          verification, communication, and payment coordination while users
-          maintain full control over their choices.
-        </p>
-
-      </section>
+      <Link
+        href="/list-property"
+        className="border border-green-600 text-green-700 px-6 py-3 rounded-lg hover:bg-green-50"
+      >
+        List Property
+      </Link>
 
     </div>
-  );
+
+  </div>
+
+  {/* RIGHT IMAGE */}
+  <div>
+    <img
+      src="/building.jpg"
+      alt="Room"
+      className="rounded-xl shadow-lg"
+    />
+  </div>
+
+</section>
+    
+
+)
 }
