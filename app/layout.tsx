@@ -15,13 +15,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col">
 
-        <ThemeProvider attribute="class" defaultTheme="light">
+      <body className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 transition-colors">
+
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 
           <Navbar />
 
-          <main className="flex-1">
+          {/* Main content full width */}
+          <main className="flex-1 w-full">
             {children}
           </main>
 
@@ -30,6 +32,7 @@ export default function RootLayout({
         </ThemeProvider>
 
       </body>
+
     </html>
   )
 }

@@ -8,6 +8,7 @@ export default function Navbar() {
 
   const [user, setUser] = useState<any>(null)
   const [mounted, setMounted] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const { theme, setTheme } = useTheme()
 
@@ -16,6 +17,11 @@ export default function Navbar() {
     if (storedUser) setUser(JSON.parse(storedUser))
     setMounted(true)
   }, [])
+
+  const logout = () => {
+    localStorage.removeItem("user")
+    window.location.href = "/login"
+  }
 
   if (!mounted) return null
 
@@ -30,27 +36,26 @@ export default function Navbar() {
           RoomKhidki
         </Link>
 
-        <nav className="flex gap-6 items-center">
+        <nav className="flex gap-6 items-center relative">
 
-          <Link href="/find-rooms" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
-            Rooms
-          </Link>
-
-          <Link href="/find-roommate" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
-            Roommates
-          </Link>
-
-          <Link href="/saved" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
-            ❤️ Saved
-          </Link>
-
+          {/* Dashboard */}
           {user && (
             <Link href="/dashboard" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
               Dashboard
             </Link>
           )}
 
-          {/* Dark Mode Toggle */}
+          {/* Find Rooms */}
+          <Link href="/find-rooms" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
+            Find Rooms
+          </Link>
+
+          {/* Find Roommate */}
+          <Link href="/find-roommate" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
+            Find Roommate
+          </Link>
+
+          {/* Dark Mode */}
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="border px-3 py-1 rounded-lg text-sm dark:text-white"
@@ -59,7 +64,42 @@ export default function Navbar() {
           </button>
 
           {/* Profile */}
-          <div className="w-9 h-9 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+          <div className="relative">
+
+            <div
+              onClick={() => setOpen(!open)}
+              className="w-9 h-9 rounded-full bg-gray-300 dark:bg-gray-700 cursor-pointer"
+            />
+
+            {/* Dropdown */}
+            {open && (
+              <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-lg py-2">
+
+                <Link
+                  href="/dashboard"
+                  className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white"
+                >
+                  Profile
+                </Link>
+
+                <Link
+                  href="/saved"
+                  className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white"
+                >
+                  Saved
+                </Link>
+
+                <button
+                  onClick={logout}
+                  className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white"
+                >
+                  Logout
+                </button>
+
+              </div>
+            )}
+
+          </div>
 
         </nav>
 
