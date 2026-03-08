@@ -137,7 +137,7 @@ export default function FindRoomsContent() {
             ))}
           </datalist>
 
-          
+
           {/* BUDGET */}
 
           <input
@@ -145,7 +145,13 @@ export default function FindRoomsContent() {
             placeholder="Max Budget"
             value={budgetInput}
             onChange={(e) => setBudgetInput(e.target.value)}
-            className="border border-gray-300 p-3 rounded-lg"
+            className="border border-gray-300 dark:border-gray-600
+             p-3 rounded-lg outline-none
+             bg-white dark:bg-gray-900
+             text-gray-800 dark:text-white
+             placeholder-gray-400 dark:placeholder-gray-500
+             focus:ring-2 focus:ring-blue-500
+             appearance-none"
           />
 
 
