@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col">
 
-        <ThemeProvider attribute="class">
+        <ThemeProvider attribute="class" defaultTheme="light">
 
           <Navbar />
 
