@@ -1,32 +1,48 @@
-import Image from "next/image"
+type Room = {
+id: number
+title: string
+city: string
+price: number
+rating: number
+image: string
+}
 
-export default function RoomCard() {
-  return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
+export default function RoomCard({ room }: { room: Room }) {
+return ( <div className="bg-white rounded-xl shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-lg">
 
-      <Image
-        src="/building.jpg"
-        alt="Room"
-        width={400}
-        height={250}
-        className="w-full h-48 object-cover"
-      />
+  <div className="overflow-hidden">
+    <img
+      src={room.image}
+      alt={room.title}
+      className="w-full h-48 object-cover transition duration-300 hover:scale-105"
+    />
+  </div>
 
-      <div className="p-4">
+  <div className="p-4">
 
-        <h3 className="text-lg font-semibold">
-          Fully Furnished Room
-        </h3>
+    <h3 className="font-semibold text-lg">{room.title}</h3>
 
-        <p className="text-gray-500 text-sm">
-          Bangalore • Indiranagar
-        </p>
+    <p className="text-gray-500 text-sm">{room.city}</p>
 
-        <p className="text-green-700 font-bold mt-2">
-          ₹12,000 / month
-        </p>
+    <div className="flex justify-between items-center mt-2">
 
-      </div>
+      <span className="text-blue-600 font-bold">
+        ₹{room.price}
+      </span>
+
+      <span className="text-yellow-500">
+        ⭐ {room.rating}
+      </span>
+
     </div>
-  )
+
+    <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+      View Details
+    </button>
+
+  </div>
+
+</div>
+
+)
 }
