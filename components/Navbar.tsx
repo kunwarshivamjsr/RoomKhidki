@@ -1,13 +1,27 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
-import { usePathname } from "next/navigation"
+import { useState, useEffect } from "react"
+import { usePathname, useRouter } from "next/navigation"
 
 export default function Navbar() {
 
 const pathname = usePathname()
+const router = useRouter()
+
 const [open, setOpen] = useState(false)
+const [user, setUser] = useState<any>(null)
+
+useEffect(() => {
+const storedUser = localStorage.getItem("user")
+if (storedUser) setUser(JSON.parse(storedUser))
+}, [pathname])
+
+const logout = () => {
+localStorage.removeItem("user")
+setUser(null)
+router.push("/")
+}
 
 const navItem = (path: string) =>
 `px-4 py-2 rounded-md transition ${
@@ -16,9 +30,9 @@ const navItem = (path: string) =>
         : "text-white hover:bg-white/20"
     }`
 
-return (
-  <header className="w-full bg-gradient-to-r from-blue-700 to-orange-500 text-white px-6 py-4">
+return ( <header className="w-full bg-gradient-to-r from-blue-700 to-orange-500 text-white px-6 py-4">
 
+      
   <div className="max-w-7xl mx-auto flex justify-between items-center">
 
     {/* Logo */}
@@ -36,9 +50,37 @@ return (
 
     {/* Desktop Menu */}
     <div className="hidden md:flex gap-4 items-center">
+
       <Link href="/" className={navItem("/")}>Home</Link>
-      <Link href="/find-rooms" className={navItem("/find-rooms")}>Find Rooms</Link>
-      <Link href="/list-property" className={navItem("/list-property")}>List Property</Link>
+
+      <Link href="/find-rooms" className={navItem("/find-rooms")}>
+        Find Rooms
+      </Link>
+
+      <Link href="/find-roommate" className={navItem("/find-roommate")}>
+        Find Roommate
+      </Link>
+
+      <Link href="/list-property" className={navItem("/list-property")}>
+        List Property
+      </Link>
+
+      {user ? (
+        <button
+          onClick={logout}
+          className="border px-4 py-2 rounded-md hover:bg-white hover:text-blue-700"
+        >
+          Logout
+        </button>
+      ) : (
+        <Link
+          href="/login"
+          className="border px-4 py-2 rounded-md hover:bg-white hover:text-blue-700"
+        >
+          Login
+        </Link>
+      )}
+
     </div>
 
   </div>
@@ -46,14 +88,42 @@ return (
   {/* Mobile Menu */}
   {open && (
     <div className="flex flex-col mt-4 gap-3 md:hidden">
+
       <Link href="/" className={navItem("/")}>Home</Link>
-      <Link href="/find-rooms" className={navItem("/find-rooms")}>Find Rooms</Link>
-      <Link href="/list-property" className={navItem("/list-property")}>List Property</Link>
+
+      <Link href="/find-rooms" className={navItem("/find-rooms")}>
+        Find Rooms
+      </Link>
+
+      <Link href="/find-roommate" className={navItem("/find-roommate")}>
+        Find Roommate
+      </Link>
+
+      <Link href="/list-property" className={navItem("/list-property")}>
+        List Property
+      </Link>
+
+      {user ? (
+        <button
+          onClick={logout}
+          className="border px-4 py-2 rounded-md"
+        >
+          Logout
+        </button>
+      ) : (
+        <Link
+          href="/login"
+          className="border px-4 py-2 rounded-md"
+        >
+          Login
+        </Link>
+      )}
+
     </div>
   )}
 
 </header>
-
+      
 
 )
 }
