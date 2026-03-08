@@ -1,8 +1,26 @@
 "use client"
 
 import Link from "next/link"
+import { useState } from "react"
 
 export default function Home() {
+
+  const [city, setCity] = useState("")
+  const [budget, setBudget] = useState("")
+
+  const cities = [
+    "Delhi","Mumbai","Bangalore","Hyderabad","Chennai",
+    "Kolkata","Pune","Ahmedabad","Jaipur","Lucknow",
+    "Chandigarh","Indore","Bhopal","Surat","Nagpur"
+  ]
+
+  const budgets = [
+    "Below ₹5000",
+    "₹5000 - ₹10000",
+    "₹10000 - ₹15000",
+    "₹15000 - ₹20000",
+    "₹20000+"
+  ]
 
   return (
 
@@ -26,17 +44,37 @@ export default function Home() {
 
           <div className="bg-white shadow-md rounded-xl p-4 flex flex-col md:flex-row gap-4">
 
-            <input
-              type="text"
-              placeholder="Search City"
-              className="border p-3 rounded-lg flex-1"
-            />
+            {/* CITY DROPDOWN */}
 
-            <input
-              type="number"
-              placeholder="Max Budget"
-              className="border p-3 rounded-lg flex-1"
-            />
+            <select
+              value={city}
+              onChange={(e)=>setCity(e.target.value)}
+              className="border rounded-lg px-4 py-3 w-full md:w-52"
+            >
+              <option value="">Select City</option>
+
+              {cities.map((c)=>(
+                <option key={c} value={c}>{c}</option>
+              ))}
+
+            </select>
+
+            {/* BUDGET DROPDOWN */}
+
+            <select
+              value={budget}
+              onChange={(e)=>setBudget(e.target.value)}
+              className="border rounded-lg px-4 py-3 w-full md:w-52"
+            >
+              <option value="">Select Budget</option>
+
+              {budgets.map((b)=>(
+                <option key={b} value={b}>{b}</option>
+              ))}
+
+            </select>
+
+            {/* SEARCH BUTTON */}
 
             <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
               Search
@@ -73,7 +111,9 @@ export default function Home() {
 
       </section>
 
+
       {/* TRENDING CITIES */}
+
       <section className="max-w-7xl mx-auto px-6 py-16">
 
         <h2 className="text-3xl font-semibold mb-10 text-center">
@@ -91,7 +131,8 @@ export default function Home() {
 
             <div
               key={c.city}
-              className="relative rounded-xl overflow-hidden shadow hover:scale-105 transition cursor-pointer">
+              className="relative rounded-xl overflow-hidden shadow hover:scale-105 transition cursor-pointer"
+            >
 
               <img
                 src={c.img}
@@ -103,6 +144,7 @@ export default function Home() {
               </div>
 
             </div>
+
           ))}
 
         </div>
@@ -122,10 +164,12 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8">
 
-            {[1, 2, 3].map(room => (
+            {[1,2,3].map(room => (
 
-              <div key={room}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+              <div
+                key={room}
+                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition"
+              >
 
                 <img
                   src="/building.jpg"
@@ -164,6 +208,7 @@ export default function Home() {
 
       </section>
 
+
       {/* FEATURES */}
 
       <section className="py-16 bg-gray-100">
@@ -196,6 +241,7 @@ export default function Home() {
         </div>
 
       </section>
+
 
       {/* TESTIMONIALS */}
 
