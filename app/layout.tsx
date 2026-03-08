@@ -1,5 +1,3 @@
-"use client"
-
 import "./globals.css"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
@@ -17,19 +15,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col transition-colors duration-300">
+      <body className="bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col">
 
-        <ThemeProvider attribute="class" defaultTheme="light">
+        <ThemeProvider attribute="class">
 
-          {/* Navbar */}
           <Navbar />
 
-          {/* Page Content */}
           <main className="flex-1">
             {children}
           </main>
 
-          {/* Footer */}
           <Footer />
 
         </ThemeProvider>
