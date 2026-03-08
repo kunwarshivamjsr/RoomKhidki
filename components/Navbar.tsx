@@ -2,55 +2,71 @@
 
 import Link from "next/link"
 import { useState, useEffect } from "react"
+import { useTheme } from "next-themes"
 
 export default function Navbar() {
 
-const [user,setUser]=useState<any>(null)
+  const [user, setUser] = useState<any>(null)
+  const [mounted, setMounted] = useState(false)
 
-useEffect(()=>{
-const storedUser=localStorage.getItem("user")
-if(storedUser) setUser(JSON.parse(storedUser))
-},[])
+  const { theme, setTheme } = useTheme()
 
-return(
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user")
+    if (storedUser) setUser(JSON.parse(storedUser))
+    setMounted(true)
+  }, [])
 
-<header className="w-full bg-white shadow-sm sticky top-0 z-50">
+  if (!mounted) return null
 
-<div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+  return (
 
-<Link href="/" className="text-xl font-bold text-blue-600">
-RoomKhidki
-</Link>
+    <header className="w-full bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-50 transition-colors">
 
-<nav className="flex gap-6 items-center">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
 
-<Link href="/find-rooms" className="text-gray-700 hover:text-blue-600">
-Rooms
-</Link>
+        {/* Logo */}
+        <Link href="/" className="text-xl font-bold text-blue-600">
+          RoomKhidki
+        </Link>
 
-<Link href="/find-roommate" className="text-gray-700 hover:text-blue-600">
-Roommates
-</Link>
+        <nav className="flex gap-6 items-center">
 
-<Link href="/saved" className="text-gray-700 hover:text-blue-600">
-❤️ Saved
-</Link>
+          <Link href="/find-rooms" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
+            Rooms
+          </Link>
 
-{user && (
+          <Link href="/find-roommate" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
+            Roommates
+          </Link>
 
-<Link href="/dashboard" className="text-gray-700 hover:text-blue-600">
-Dashboard
-</Link>
-)}
+          <Link href="/saved" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
+            ❤️ Saved
+          </Link>
 
-<div className="w-9 h-9 rounded-full bg-gray-300"></div>
+          {user && (
+            <Link href="/dashboard" className="text-gray-700 dark:text-gray-200 hover:text-blue-600">
+              Dashboard
+            </Link>
+          )}
 
-</nav>
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="border px-3 py-1 rounded-lg text-sm dark:text-white"
+          >
+            {theme === "dark" ? "☀" : "🌙"}
+          </button>
 
-</div>
+          {/* Profile */}
+          <div className="w-9 h-9 rounded-full bg-gray-300 dark:bg-gray-700"></div>
 
-</header>
+        </nav>
 
-)
+      </div>
+
+    </header>
+
+  )
 
 }
