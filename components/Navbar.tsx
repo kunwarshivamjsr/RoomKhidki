@@ -1,114 +1,60 @@
 "use client"
 
 import Link from "next/link"
-import { useRouter, usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
-
-type User = {
-  firstName: string
-  lastName: string
-  role: "tenant" | "landlord"
-}
+import { useState } from "react"
+import { usePathname } from "next/navigation"
 
 export default function Navbar() {
 
-  const router = useRouter()
-  const pathname = usePathname()
+const pathname = usePathname()
+const [open, setOpen] = useState(false)
 
-  const [user, setUser] = useState<User | null>(null)
-
-  // Check login status when route changes
-  useEffect(() => {
-    try {
-      const storedUser = localStorage.getItem("user")
-
-      if (storedUser) {
-        setUser(JSON.parse(storedUser))
-      } else {
-        setUser(null)
-      }
-
-    } catch {
-      setUser(null)
-    }
-  }, [pathname])
-
-  const handleLogout = () => {
-    localStorage.removeItem("user")
-    setUser(null)
-    router.push("/")
-  }
-
-  const handleListProperty = () => {
-    if (!user) {
-      router.push("/login")
-      return
-    }
-
-    if (user.role === "landlord") {
-      router.push("/list-property")
-    } else {
-      alert("Only landlords can list properties.")
-    }
-  }
-
-  const navItem = (path: string) =>
-    `px-4 py-2 rounded-md transition-all duration-200 ${
+const navItem = (path: string) =>
+`px-4 py-2 rounded-md transition ${
       pathname === path
-        ? "bg-white text-blue-700 shadow-sm"
+        ? "bg-white text-blue-700"
         : "text-white hover:bg-white/20"
     }`
 
-  return (
-    <header className="w-full py-4 px-10 flex justify-between items-center text-white bg-gradient-to-r from-blue-700 to-orange-500 shadow-md">
+return (
+  <header className="w-full bg-gradient-to-r from-blue-700 to-orange-500 text-white px-6 py-4">
 
-      {/* Logo */}
-      <Link href="/" className="text-xl font-bold tracking-wide">
-        Room<span className="text-orange-300">Khidki</span>
-      </Link>
+```
+  <div className="max-w-7xl mx-auto flex justify-between items-center">
 
-      {/* Navigation */}
-      <div className="flex items-center gap-4 text-sm">
+    {/* Logo */}
+    <Link href="/" className="text-xl font-bold">
+      Room<span className="text-orange-300">Khidki</span>
+    </Link>
 
-        <Link href="/" className={navItem("/")}>
-          Home
-        </Link>
+    {/* Mobile Menu Button */}
+    <button
+      className="md:hidden text-2xl"
+      onClick={() => setOpen(!open)}
+    >
+      ☰
+    </button>
 
-        <Link href="/find-rooms" className={navItem("/find-rooms")}>
-          Find Rooms
-        </Link>
+    {/* Desktop Menu */}
+    <div className="hidden md:flex gap-4 items-center">
+      <Link href="/" className={navItem("/")}>Home</Link>
+      <Link href="/find-rooms" className={navItem("/find-rooms")}>Find Rooms</Link>
+      <Link href="/list-property" className={navItem("/list-property")}>List Property</Link>
+    </div>
 
-        <button
-          onClick={handleListProperty}
-          className={navItem("/list-property")}
-        >
-          List Property
-        </button>
+  </div>
 
-        {user ? (
-          <>
-            <span className="ml-2">
-              Hello, {user.firstName}
-            </span>
+  {/* Mobile Menu */}
+  {open && (
+    <div className="flex flex-col mt-4 gap-3 md:hidden">
+      <Link href="/" className={navItem("/")}>Home</Link>
+      <Link href="/find-rooms" className={navItem("/find-rooms")}>Find Rooms</Link>
+      <Link href="/list-property" className={navItem("/list-property")}>List Property</Link>
+    </div>
+  )}
 
-            <button
-              onClick={handleLogout}
-              className="border border-white px-3 py-1 rounded-md hover:bg-white hover:text-blue-700 transition"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <Link
-            href="/login"
-            className="border border-white px-3 py-1 rounded-md hover:bg-white hover:text-blue-700 transition"
-          >
-            Login
-          </Link>
-        )}
+</header>
 
-      </div>
 
-    </header>
-  )
+)
 }
